@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+{% block content %}
+  
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Blog</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rokkitt:wght@800&family=Ysabeau+SC:wght@600&display=swap" rel="stylesheet">
+<style>
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f8f9fa;
+        }
+        
+    .header {
+        font-family: 'Rokkitt', serif;
+        font-family: 'Ysabeau SC', sans-serif;
+        color: blaack;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .container {
+        margin: 0 auto;
+      padding: 20px;
+      
+    }
+    
+    .blog-post {
+        margin-bottom: 30px;
+        border-radius: 5px;
+        background-color: #fff;
+        padding: 20px;
+        box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .blog-post h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: #333;
+    }
+    
+    .blog-post .meta {
+        font-size: 14px;
+      color: #888;
+      margin-bottom: 10px;
+    }
+    
+    .blog-post p {
+      line-height: 1.5;
+      margin-bottom: 10px;
+      color: #555;
+    }
+    
+    .blog-post a {
+        color: #333;
+        text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .blog-post a:hover {
+        text-decoration: underline;
+    }
+    
+    .moving-text {
+        position: relative;
+        animation: marquee 8s linear infinite;
+    }
+    
+    @keyframes marquee {
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+      
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+      
+      #floating-heading {
+        animation: float 2s ease-in-out infinite;
+    }
+    .arrow{
+        display: inline;
+        font-size: 30px;
+        position: relative;
+        top: 5px;
+    }
+    p{
+        text-align: justify;
+    }
+    .comment-form {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    .comment-form label {
+      font-weight: bold;
+    }
+    
+    .comment-form textarea {
+      width: 100%;
+      height: 100px;
+      resize: vertical;
+    }
+    
+    .comment-form input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      cursor: pointer;
+    }
+    .comment-form input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+    <style>
+      /* CSS styles */
+      .comment-container {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+  
+      .comment-author {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+  
+      .comment-content {
+        margin-bottom: 5px;
+      }
+  
+      .comment-date {
+        font-style: italic;
+        color: #888;
+      }
+    
+</style>
+</head>
+<body>
+    <div class="header">
+        <h1 id="floating-heading">BLOGGY BLOG</h1>
+    </div>
+    
+    <div class="container">
+        <div class="blog-post">
+      <h2>{{obj.title}}</h2>
+      <div class="meta">
+          Published on {{obj.time}}
+      </div>
+      <p>{{ obj.desc|safe }}</p>
+ 
+      <br><br>
+      <h1>Comments ({{ comments|length }})</h1>
+      <br>
+{% if user.is_authenticated %}
+  {% if comments %}
+    {% for comment in comments %}
+      <div class="comment-container">
+        <div class="comment-author">{{ comment.author }}</div>
+        <div class="comment-content">{{ comment.content }}</div>
+        <div class="comment-date">{{ comment.created_at }}</div>
+        <hr style="border: 1px solid rgb(192, 188, 188);">
+        <br> 
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No comments yet.</p>
+  {% endif %}
+{% else %}
+<p>Please Login to make comments</p>
+{% endif %}
+
+      <form class="comment-form" method="POST" action="{% url 'postcomment' obj.id %} ">
+    
+        {% csrf_token %}
+        
+        <input type="hidden" name="comment" value="{{ obj.id }}">
+        
+        <div>
+          <label for="content">Comment:</label><br>
+          <textarea id="content" name="content" rows="4" cols="50"></textarea>
+        </div>
+        
+        <div>
+          <input type="submit" value="Post Comment">
+        </div>
+      </form>
+
+
+
+      <a href="{% url 'blog' %}">Next Blog</a>
+
+    </div>
+    
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+{% endblock content %}
+

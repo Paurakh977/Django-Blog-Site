@@ -1,0 +1,54 @@
+<style>
+    .ok{
+      
+        display:flexbox;
+        position: relative;
+        top :115px;
+        left: 22%;
+        width: 60%;
+        height:105vh;
+        
+       
+        
+    }
+   
+    label{
+        font-weight: 600;
+    }
+    h1{
+        position: relative;
+        top: 60px;
+        text-align: center;
+    }
+
+</style>
+
+{% extends 'base.html' %}
+{% block post %}active{% endblock post %}
+{% block content %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<h1>Register Your Task Here</h1>
+<div class="ok">
+  <form action="{% url 'hehe' %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="exampleInputEmail1">Title of Your Blog</label>
+      <input type="text" name="title" class="form-control" placeholder="Enter Your Title" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail1">Slug</label>
+      <input type="text" name="slug" class="form-control" placeholder="Enter Your Title slug" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Blog</label>
+      <textarea name="desc" placeholder="Description About Your Blog" id="exampleFormControlTextarea1" class="form-control custom-textarea" rows="20" cols="50"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  
+      
+</div>
+<br><br><br><br><br><br><br><br><br>
+
+{% endblock content %}
+
